@@ -1,0 +1,326 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1ZeuECSsi197qK3ZOss1YmOYz0Qyyt_GU0SV8oz5s8-k",
+          "mode": "list",
+          "cachedResultName": "Client Mail Automation Responses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZeuECSsi197qK3ZOss1YmOYz0Qyyt_GU0SV8oz5s8-k/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 72157345,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZeuECSsi197qK3ZOss1YmOYz0Qyyt_GU0SV8oz5s8-k/edit#gid=72157345"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        16
+      ],
+      "id": "1457cb9b-3b7a-4c5e-8ae2-6af882e59591",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "0u2YRwyALuHlBZSk",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets Trigger').item.json['Client Email'] }}",
+        "subject": "={{ $('Google Sheets Trigger').item.json['Mail Subject'] }}",
+        "message": "={{ $('Google Sheets Trigger').item.json['Mail Body'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        128,
+        16
+      ],
+      "id": "976509f0-cf58-4c69-bd4e-464396edde0d",
+      "name": "Send a message",
+      "webhookId": "477dddaf-e5ad-4989-b98e-e03234c658bc",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "FCeYpCTy6z9fuIU1",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f5de15e7-a3ef-4400-92ca-4128a4f58536",
+              "leftValue": "Status",
+              "rightValue": "=Completed",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -96,
+        16
+      ],
+      "id": "df7f08b7-dcd5-427c-b879-e43c3ec4c93f",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1ZeuECSsi197qK3ZOss1YmOYz0Qyyt_GU0SV8oz5s8-k",
+          "mode": "list",
+          "cachedResultName": "Client Mail Automation Responses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZeuECSsi197qK3ZOss1YmOYz0Qyyt_GU0SV8oz5s8-k/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 72157345,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZeuECSsi197qK3ZOss1YmOYz0Qyyt_GU0SV8oz5s8-k/edit#gid=72157345"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Completed",
+            "Timestamp": "={{ $('Google Sheets Trigger').item.json.Timestamp }}"
+          },
+          "matchingColumns": [
+            "Timestamp"
+          ],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Client Name",
+              "displayName": "Client Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Client Email",
+              "displayName": "Client Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Client WhatsApp Number",
+              "displayName": "Client WhatsApp Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Amount",
+              "displayName": "Amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Mail Subject",
+              "displayName": "Mail Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Mail Body",
+              "displayName": "Mail Body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        544,
+        16
+      ],
+      "id": "60baf374-09e5-42bb-875a-2b8f45435706",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HWiqKzMonLiU0bMh",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v20.0/1150425024810488/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"91{{ $('Google Sheets Trigger').item.json['Client WhatsApp Number'] }}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": \"Hi {{ $('Google Sheets Trigger').item.json['Client Name'] }}!\\n\\n{{ $('Google Sheets Trigger').item.json['Mail Body'] }}\\n\\nRegards,\\nYour Team\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        336,
+        16
+      ],
+      "id": "8afa6185-0e3a-43e3-9343-b987e406a12f",
+      "name": "Whatsapp message",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "dYYQbrz4IjSmf2JI",
+          "name": "Header Auth account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Whatsapp message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Whatsapp message": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "a4cc0424-cac3-4b4e-8947-12d0173932e3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f47e22dcfbde3bc5fc30d0e75e38c0aae0e66c6325eaa50b840201441d565bde"
+  },
+  "id": "1S8UVyb3tVVpvvDp",
+  "tags": []
+}
